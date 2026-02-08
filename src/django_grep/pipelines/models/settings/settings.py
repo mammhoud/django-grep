@@ -529,24 +529,3 @@ class SocialSettings(
         }
 
 
-# # =======================================
-# # ADMIN HELPERS
-# # =======================================
-# def get_settings_admin_summary():
-#     """Generate summary of active settings for admin dashboard."""
-#     summary = {
-#         'site_settings': {
-#             'active': SiteSettings.objects.filter(active=True).count(),
-#             'total': SiteSettings.objects.count(),
-#             'languages': SiteSettings.get_available_languages(),
-#         },
-#         'social_settings': {
-#             'active': SocialSettings.objects.filter(active=True).count(),
-#             'total': SocialSettings.objects.count(),
-#         },
-#         'email_settings': {
-#             'active': EmailSettings.objects.filter(active=True).count(),
-#             'total': EmailSettings.objects.count(),
-#         },
-#     }
-#     return summary

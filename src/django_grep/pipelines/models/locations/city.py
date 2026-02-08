@@ -1,14 +1,9 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# from core.app.models import *
-
 
 class Country(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
-    # region = models.ForeignKey(( "location.Region"), null=True, on_delete=models.DO_NOTHING)
-
-    # city = models.ForeignKey(( "commons.City"), null=True, on_delete=models.DO_NOTHING)
 
     def get_cities(self):
         return [city.name for city in self.cities.all()]  # type: ignore
@@ -39,20 +34,3 @@ class City(models.Model):
         db_table = "Cities"
 
 
-# class Region(models.Model):
-#     name = models.CharField(max_length=100, verbose_name=_("Name"))
-#     region = models.CharField(max_length=100, null=True, verbose_name=_("Region"))
-
-#     # location = models.CharField(max_length=100, null=True, verbose_name=_('Location'))
-#     # country = models.ForeignKey(('Client.Country'), on_delete=models.CASCADE)
-#     # Corporate = models.ForeignKey(('Organisations.Corporate'), on_delete=models.CASCADE)
-#     # stock = models.ForeignKey(('Stocks.Stock'), on_delete=models.CASCADE)
-
-#     class Meta:
-#         verbose_name = _("Region")
-#         verbose_name_plural = _("Regions")
-#         ordering = ["name"]
-#         db_table = "Regions"
-
-#     def __str__(self):
-#         return f"{self.name}"

@@ -10,7 +10,12 @@ Django GREP is a collection of enhancing utilities and components for Django and
 
 - [Integration Guide](usage.md)
 - [Components System](components.md)
-- [Pipelines & Models](pipelines.md)
+- [Pipelines Framework](pipelines.md)
+- [Models Reference](models.md)
+- [Managers Reference](managers.md)
+- [Services Reference](services.md)
+- [Forms Reference](forms.md)
+- [Authentication Backends](backends.md)
 - [Core Utilities](utils.md)
 - [Routing (Routes)](routes.md)
 

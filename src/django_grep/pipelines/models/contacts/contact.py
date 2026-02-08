@@ -104,17 +104,6 @@ class ProfessionalBase(ContactBase):
 
         return public_contacts
 
-    # ---------------------- Save Logic ----------------------
-
-    # def save(self, *args, **kwargs):
-    #     """Ensure only one primary contact per organization."""
-    #     if self.is_primary_contact and self.organization:
-    #         self.__class__.objects.filter(
-    #             organization=self.organization,
-    #             is_primary_contact=True,
-    #         ).exclude(pk=self.pk).update(is_primary_contact=False)
-    #     super().save(*args, **kwargs)
-
     def __str__(self) -> str:
         return f"{self.full_name} — {self.professional_title}"
 

@@ -1,9 +1,5 @@
-# Copyright (c) 2017-2020, Mikhail Podgurskiy
+# Copyright (c) 2024, Mahmoud Ezzat
 # All Rights Reserved.
-
-# This work is dual-licensed under AGPL defined in file 'LICENSE' with
-# LICENSE_EXCEPTION and the Commercial license defined in file 'COMM_LICENSE',
-# which is part of this source code package.
 
 from __future__ import annotations
 
@@ -86,8 +82,6 @@ class Application(IndexViewMixin, Viewset):
 			"app_url": request.path,
 			"viewset": self,
 		}
-		# return {}
-		# return self._get_resolver_extra()
 
 	def has_view_permission(self, user: Any, obj: Any | None = None) -> bool:
 		if self.permission is not None:

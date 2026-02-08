@@ -6,10 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from django_grep.pipelines.models import DefaultBase
 
 
-# @register_setting(icon="globe")
 class Role(
     DefaultBase,
-    # BaseGenericSetting,
 ):
     """
     Role model for defining user roles and permissions within the system.
@@ -100,25 +98,3 @@ class Role(
                 return True
         return False
 
-    # @classmethod
-    # def user_role_groups(cls, user):
-    #     """
-    #     Retrieve the user's role and associated groups in a dictionary.
-    #     """
-    #     if not user:
-    #         raise ValidationError("A valid user instance is required.")
-
-    #     role = getattr(user, "role", None)
-    #     user_groups = user.groups.all()
-
-    #     return {
-    #         "role": {
-    #             "id": role.pk if role else None,
-    #             "name": role.name if role else "No role assigned",
-    #         },
-    #         "group": {
-    #             "id": role.group.pk if role and role.group else None,
-    #             "name": role.group.name if role and role.group else "No group assigned",
-    #         },
-    #         "user_groups": [{"id": g.pk, "name": g.name} for g in user_groups],
-    #     }

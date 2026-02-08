@@ -3,7 +3,6 @@ from django.utils.translation import gettext_lazy as _
 
 from django_grep.pipelines.models import DefaultBase
 
-# from core.app.models import *
 
 class Branch(DefaultBase):
     """

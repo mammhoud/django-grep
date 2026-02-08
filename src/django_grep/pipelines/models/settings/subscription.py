@@ -82,7 +82,6 @@ class NewsletterSubscription(DefaultBase):
     panels = [
         MultiFieldPanel(
             [
-                # FieldPanel("user"),
                 FieldPanel("email"),
                 FieldRowPanel(
                     [
@@ -134,20 +133,3 @@ class NewsletterSubscription(DefaultBase):
         self.last_sent = timezone.now()
         self.save(update_fields=["last_sent"])
 
-    # def send_confirmation_email(self):
-    #     """Send confirmation or subscription success email."""
-    #     subject = _("Subscription Confirmation")
-    #     message = _(
-    #         f"Thank you for subscribing to our {self.get_subscription_type_display()} newsletters!"
-    #     )
-    #     try:
-    #         send_mail(
-    #             subject,
-    #             message,
-    #             settings.DEFAULT_FROM_EMAIL,
-    #             [self.email],
-    #             fail_silently=True,
-    #         )
-    #         logger.info(f"Confirmation email sent to {self.email}.")
-    #     except Exception as e:
-    #         logger.error(f"Failed to send confirmation email: {e}")

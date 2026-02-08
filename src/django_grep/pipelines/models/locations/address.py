@@ -1,11 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# from core.app.models import *
-
 
 class Address(models.Model):
-    # country = models.ForeignKey(('location.Country'), on_delete=models.CASCADE)
     city = models.ForeignKey("City", on_delete=models.CASCADE)
     street = models.CharField(max_length=100, verbose_name=_("Street"))
     building = models.CharField(max_length=100, verbose_name=_("Building"))

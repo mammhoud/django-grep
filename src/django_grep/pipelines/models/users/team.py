@@ -117,7 +117,6 @@ class TeamMembership(DefaultBase):
         ordering = ["team", "-is_primary_team", "role", "person__full_name"]
         indexes = [
             models.Index(fields=["person", "team"]),
-            # models.Index(fields=["role"]),
             models.Index(fields=["status"]),
             models.Index(fields=["is_primary_team"]),
             models.Index(fields=["date_joined"]),
@@ -139,7 +138,6 @@ class TeamMembership(DefaultBase):
             [
                 FieldRowPanel(
                     [
-                        # FieldPanel("role"),
                         FieldPanel("status"),
                     ]
                 ),
@@ -178,7 +176,6 @@ class TeamMembership(DefaultBase):
                 index.SearchField("email"),
             ],
         ),
-        # index.FilterField("role"),
         index.FilterField("status"),
     ]
 
@@ -186,10 +183,6 @@ class TeamMembership(DefaultBase):
     # PROPERTIES
     # ======================
 
-    # @property
-    # def is_leader(self):
-    #     """Check if member is a team leader."""
-    #     return self.role in [self.MemberRole.LEADER, self.MemberRole.DEPUTY_LEADER]
 
     @property
     def is_active_member(self):
@@ -214,10 +207,6 @@ class TeamMembership(DefaultBase):
             return f"{months} month{'s' if months > 1 else ''}"
         return f"{days} day{'s' if days > 1 else ''}"
 
-    # @property
-    # def can_manage_team(self):
-    #     """Check if member can manage team settings."""
-    #     return self.role in [self.MemberRole.LEADER, self.MemberRole.DEPUTY_LEADER]
 
     # ======================
     # METHODS
@@ -237,18 +226,6 @@ class TeamMembership(DefaultBase):
         if self.date_left and self.date_left < self.date_joined:
             raise ValidationError({"date_left": _("Leave date cannot be before join date.")})
 
-        # # Validate team leader consistency
-        # if self.role == self.MemberRole.LEADER:
-        #     existing_leader = TeamMembership.objects.filter(
-        #         team=self.team,
-        #         role=self.MemberRole.LEADER,
-        #         status=self.MembershipStatus.ACTIVE
-        #     ).exclude(pk=self.pk)
-
-        #     if existing_leader.exists():
-        #         raise ValidationError({
-        #             'role': _('A team can only have one active leader.')
-        #         })
 
     def save(self, *args, **kwargs):
         """Handle membership status and team leader updates."""
@@ -283,7 +260,6 @@ class TeamMembership(DefaultBase):
 # -------------------------------------------------------------------
 # TEAM MODEL
 # -------------------------------------------------------------------
-# #@register_snippet
 class Team(DefaultBase, ClusterableModel):
     """
     Enhanced Team model within a department with comprehensive team management features.
@@ -543,10 +519,6 @@ class Team(DefaultBase, ClusterableModel):
             ],
             heading=_("Members"),
         ),
-        MultiFieldPanel(
-            [
-                # FieldPanel("tags"),
-            ],
             heading=_("Tagging & Categorization"),
         ),
         MultiFieldPanel(
@@ -591,13 +563,6 @@ class Team(DefaultBase, ClusterableModel):
         """Get count of active members."""
         return self.active_members.count()
 
-    # @property
-    # def leadership(self):
-    #     """Get team leadership members."""
-    #     return self.memberships.filter(
-    #         role__in=[TeamMembership.MemberRole.LEADER, TeamMembership.MemberRole.DEPUTY_LEADER],
-    #         status=TeamMembership.MembershipStatus.ACTIVE
-    #     )
 
     @property
     def is_full(self):

@@ -152,7 +152,6 @@ class BaseTagCategory(ClusterableModel):
         index.SearchField("short_description"),
         index.FilterField("visibility"),
         index.FilterField("is_featured"),
-        # index.FilterField("live"),
     ]
 
     panels = [
@@ -307,16 +306,6 @@ class BaseTag(TagBase, ClusterableModel):
         verbose_name=_("Synonyms"),
         help_text=_("Tags with similar meaning"),
     )
-    # related_tags = models.ManyToManyField(
-    #     'self',
-    #     blank=True,
-    #     symmetrical=False,
-    #     through='TagRelationship',
-    #     through_fields=('source_tag', 'target_tag'),
-    #     related_name='related_to',
-    #     verbose_name=_("Related Tags"),
-    #     help_text=_("Manually curated related tags")
-    # )
 
     # Metadata
     created_by = models.ForeignKey(
@@ -345,9 +334,6 @@ class BaseTag(TagBase, ClusterableModel):
             models.Index(fields=["name"]),
             models.Index(fields=["usage_count"]),
             models.Index(fields=["importance", "usage_count"]),
-            # models.Index(fields=["visibility", "live"]),
-            models.Index(fields=["created_at"]),
-            models.Index(fields=["last_used"]),
             models.Index(fields=["relevance_score"]),
         ]
 
@@ -360,7 +346,6 @@ class BaseTag(TagBase, ClusterableModel):
         index.SearchField("meta_keywords"),
         index.FilterField("visibility"),
         index.FilterField("importance"),
-        # index.FilterField("live"),
         index.AutocompleteField("name"),
     ]
 
@@ -396,7 +381,6 @@ class BaseTag(TagBase, ClusterableModel):
             heading=_("SEO"),
         ),
         InlinePanel("synonyms", label=_("Synonyms")),
-        # InlinePanel("tag_relationships", label=_("Related Tags")),
     ]
 
     def clean(self):
@@ -418,8 +402,6 @@ class BaseTag(TagBase, ClusterableModel):
         super().save(*args, **kwargs)
 
     def update_usage_stats(self):
-        """Update usage statistics for this tag"""
-        raise NotImplementedError("Subclasses must implement this method")
 
     def increment_view_count(self):
         """Increment view count"""
@@ -457,9 +439,6 @@ class BaseTag(TagBase, ClusterableModel):
         # Implement logic based on usage in last 7 days
         return min(self.usage_count / 100, 1.0)
 
-    # def get_related_tags(self, limit=10, include_synonyms=True):
-    #     """Get tags related to this one"""
-    #     raise NotImplementedError("Subclasses must implement this method")
 
     def get_tag_cloud_data(self, min_size=12, max_size=36):
         """Get data for tag cloud visualization"""
@@ -495,14 +474,6 @@ class TagRelationship(models.Model):
         ("similar", _("Similar")),
     )
 
-    # source_tag = models.ForeignKey(
-    #     'BaseTag',
-    #     on_delete=models.CASCADE,
-    #     related_name='outgoing_relationships'
-    # )
-    # target_tag = models.ForeignKey(
-    #     "BaseTag", on_delete=models.CASCADE, related_name="incoming_relationships"
-    # )
     relationship_type = models.CharField(
         max_length=20, choices=RELATIONSHIP_TYPES, default="related"
     )
@@ -514,8 +485,6 @@ class TagRelationship(models.Model):
     class Meta:
         unique_together = [
             (
-                # 'source_tag',
-                # "target_tag",
                 "relationship_type",
             )
         ]
@@ -542,7 +511,6 @@ class TagHistory(models.Model):
         ("reject", _("Rejected")),
     )
 
-    # tag = models.ForeignKey("BaseTag", on_delete=models.CASCADE, related_name="history")
     action = models.CharField(max_length=20, choices=ACTION_TYPES)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True
@@ -599,11 +567,6 @@ class Tag(BaseTag):
         # Implementation depends on your through model
         return 0
 
-    # def get_related_tags(self, limit=10, include_synonyms=True):
-    #     """Get related tags."""
-    #     from django.db.models import Count
-    #     # Implementation using through model
-    #     return Tag.objects.none()
 
 
 # ---------------------------------------------------------------------
@@ -641,9 +604,6 @@ class PersonTagCategory(BaseTagCategory):
     def tag_count(self):
         return self.tags.count()
 
-    # @property
-    # def published_tag_count(self):
-    #     return self.tags.filter(live=True).count()
 
     def get_absolute_url(self):
         return reverse("person-tag-category-detail", kwargs={"slug": self.slug})
