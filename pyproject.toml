@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "django-grep"
+version = "0.1.0"
+description = "Core CTC website components, pipelines, and utilities for Wagtail/Django"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Framework :: Django",
+    "Framework :: Wagtail",
+]
+dependencies = [
+    "Django",
+    "wagtail",
+]
+
+[project.urls]
+"Homepage" = "https://example.com"
