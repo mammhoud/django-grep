@@ -8,8 +8,21 @@
 
 **Purpose:** Enhanced abstract base model with UUID, timestamps, audit fields, and Wagtail admin integration.
 
-#### Fields
+**When to Use:**
+- ✅ Most common use case for business entities.
+- ✅ Need audit trails (`created_by`, `updated_by`).
+- ✅ Need soft delete functionality (`is_active`).
+- ✅ Need publication workflow (`published`, `published_at`).
+- ✅ Standard CRUD operations with UUID primary keys.
 
+**Includes:**
+- UUID primary key (UUID4).
+- Timestamps (`created_at`, `updated_at`).
+- Soft delete flag.
+- Audit fields (ForeignKeys to User).
+- Wagtail admin integration (automatic panels).
+
+#### Fields
 | Field | Type | Description | Default |
 |-------|------|-------------|---------|
 | `id` | UUIDField | Primary key | auto-generated UUID4 |
@@ -40,10 +53,6 @@ def publish(self):
 # Unpublish
 def unpublish(self):
     """Unpublish the record."""
-
-# Get Status
-def status_string(self):
-    """Get human-readable status string."""
 ```
 
 ### `EnhancedBase`
@@ -52,8 +61,19 @@ def status_string(self):
 
 **Purpose:** Enhanced base model combining `DefaultBase` and `TemplateRenderMixin` with versioning.
 
-#### Additional Fields
+**When to Use:**
+- ✅ Need version tracking and revision history.
+- ✅ Email template rendering (`TemplateRenderMixin`).
+- ✅ Compliance/audit requirements (knowing what changed and when).
+- ✅ Document management (contracts, agreements).
 
+**Includes:**
+- All `DefaultBase` features.
+- Version tracking and revision creation.
+- Template rendering logic.
+- Email sending integration.
+
+#### Additional Fields
 | Field | Type | Description | Default |
 |-------|------|-------------|---------|
 | `version` | PositiveIntegerField | Record version number | `1` |

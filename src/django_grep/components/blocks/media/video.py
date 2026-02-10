@@ -8,11 +8,11 @@ from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
-from ..base import BaseBlock
+from ..base import AttributeModelBlock, BaseBlock
 from .image import ImageBlock
 
 
-class VideoBlock(BaseBlock):
+class VideoBlock(AttributeModelBlock):
     """
      video block with multiple hosting options and advanced features.
     """
@@ -248,7 +248,7 @@ class VideoBlock(BaseBlock):
         return context
 
 
-class VideoGalleryBlock(BaseBlock):
+class VideoGalleryBlock(AttributeModelBlock):
     """
     Gallery block for multiple videos with playlist functionality.
     """

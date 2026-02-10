@@ -165,7 +165,7 @@ __all__ = [
 # 📝 Version Information
 # ====================================
 __version__ = "1.0.0"
-__author__ = "CTC Research"
+__author__ = "Xellent Research"
 __description__ = "Comprehensive Django development tools and debugging utilities"
 
 

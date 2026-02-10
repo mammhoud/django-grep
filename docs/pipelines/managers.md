@@ -82,6 +82,18 @@ User caches are automatically invalidated on:
 
 **Purpose:** Adds universal caching to BaseManager.
 
+**When to Use:**
+- ✅ Frequently accessed data.
+- ✅ Performance critical queries.
+- ✅ High read, low write operations.
+- ✅ Expensive calculations.
+
+**Cache Duration Guidelines:**
+- User data: 30-60 minutes.
+- Configuration: 1-24 hours.
+- Static content: 24+ hours.
+- Real-time data: 1-5 minutes.
+
 #### Configuration
 
 ```python
@@ -90,14 +102,6 @@ DEFAULT_CACHE_TIMEOUT = 3600  # 1 hour
 ```
 
 #### Key Methods
-
-##### Cache Detection
-
-```python
-@staticmethod
-def is_redis_available() -> bool
-    """Check if Redis cache backend is available."""
-```
 
 ##### Cached Queries
 
@@ -120,4 +124,37 @@ def invalidate_object_cache(self, obj: models.Model) -> bool
 
 # Clear all cache for this manager
 def invalidate_all_cache(self) -> bool
+```
+
+---
+
+## 🔍 Search Support
+
+### `SearchManagerMixin`
+
+**Location:** `django_grep.pipelines/managers/search.py`
+
+**Purpose:** Adds full-text search and autocomplete capabilities to managers.
+
+**When to Use:**
+- ✅ Full-text search needed across multiple fields.
+- ✅ Autocomplete features for UI inputs.
+- ✅ Relevance scoring (PostgreSQL GIN indexes).
+
+**Weighting & Minimum Score:**
+```python
+SEARCH_FIELDS = ['title', 'content', 'summary']
+SEARCH_WEIGHTS = {'title': 2.0, 'summary': 1.5, 'content': 1.0}
+SEARCH_MIN_SCORE = 0.3
+```
+
+#### Key Methods
+
+```python
+# Full-text search with scoring
+def search(self, query: str, filters: Dict[str, Any] = None,
+           limit: int = 20, offset: int = 0) -> QuerySet
+
+# Autocomplete suggestions
+def autocomplete(self, query: str, limit: int = 10) -> List[Dict]
 ```

@@ -24,11 +24,14 @@ page.hero_section = [
 ]
 """
 
+from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
+from ..base import AttributeModelBlock
 
-class HeroSectionBlock(blocks.StructBlock):
+
+class HeroSectionBlock(AttributeModelBlock):
     """A customizable hero/landing section with background image and CTA."""
 
     title = blocks.CharBlock(required=True, help_text="Main heading text.")
@@ -44,3 +47,5 @@ class HeroSectionBlock(blocks.StructBlock):
     class Meta:
         icon = "image"
         label = "Hero Section"
+        template = "blocks/hero_section_block.html"
+

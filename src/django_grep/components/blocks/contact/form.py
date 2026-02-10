@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
-from ..base import BaseBlock
+from ..base import AttributeModelBlock, BaseBlock
 
 
 class FormFieldBlock(blocks.StructBlock):
@@ -157,7 +157,7 @@ class FormFieldBlock(blocks.StructBlock):
         return cleaned
 
 
-class ContactFormBlock(blocks.StructBlock):
+class ContactFormBlock(AttributeModelBlock):
     """
     Enhanced reusable contact form block with dynamic fields.
     """
@@ -306,4 +306,6 @@ class ContactFormBlock(blocks.StructBlock):
     class Meta:
         icon = "form"
         label = _("Contact Form")
+        template = "blocks/contact_form_block.html"
         group = _("Forms")
+

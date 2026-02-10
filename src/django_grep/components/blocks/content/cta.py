@@ -5,7 +5,7 @@ from wagtail.contrib.table_block.blocks import TableBlock
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
 
-from ..base import BaseBlock
+from ..base import AttributeModelBlock, BaseBlock
 
 
 class ButtonBlock(BaseBlock):
@@ -134,7 +134,7 @@ class BadgeBlock(blocks.StructBlock):
 
 
 
-class CTABlock(BaseBlock):
+class CTABlock(AttributeModelBlock):
     """
     Comprehensive Call to Action block with multiple layouts and features.
     Supports hero CTAs, inline CTAs, cards, and more.
@@ -385,17 +385,8 @@ class CTABlock(BaseBlock):
     # -------------------------------------------------------------------------
     # ADVANCED SETTINGS
     # -------------------------------------------------------------------------
-    custom_classes = blocks.CharBlock(
-        required=False,
-        label=_("Custom CSS Classes"),
-        help_text=_("Additional CSS classes for custom styling")
-    )
+    # Removed redundant custom_classes and custom_id fields as they are now provided by AttributeModelBlock
 
-    custom_id = blocks.CharBlock(
-        required=False,
-        label=_("Custom ID"),
-        help_text=_("HTML ID attribute for the section")
-    )
 
     spacing_top = blocks.ChoiceBlock(
         choices=[

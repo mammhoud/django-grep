@@ -40,7 +40,7 @@ class SiteSettings(
     site_name = models.CharField(
         _("Site Name"),
         max_length=150,
-        default="CTC Hub",
+        default="Xellent Hub",
         help_text=_("Main brand name used across the website."),
     )
     tagline = models.CharField(
@@ -89,23 +89,23 @@ class SiteSettings(
         verbose_name=_("Title suffix"),
         max_length=255,
         help_text=_("Suffix for <title> tag, e.g. ' | Company Name'"),
-        default=" | CTC Hub",
+        default=" | Xellent Hub",
     )
     meta_description = models.TextField(
         _("META description"),
         blank=True,
-        default="CTC Hub delivers innovative web, mobile, and cloud-based digital solutions for forward-thinking businesses.",
+        default="Xellent Hub delivers innovative web, mobile, and cloud-based digital solutions for forward-thinking businesses.",
     )
     meta_keywords = models.TextField(
         _("META Keywords"),
         blank=True,
-        default="CTC, digital transformation, software, AI, technology, innovation",
+        default="Xellent, digital transformation, software, AI, technology, innovation",
     )
     meta_author = models.CharField(
         _("META Author"),
         max_length=255,
         blank=True,
-        default="CTC Hub Team",
+        default="Xellent Hub Team",
     )
 
     panels = [
@@ -335,12 +335,12 @@ class SocialSettings(
     email = models.EmailField(
         blank=True,
         verbose_name=_("Email"),
-        default="info@ctchub.com",
+        default="info@xellenthub.com",
     )
     support_email = models.EmailField(
         blank=True,
         verbose_name=_("Support Email"),
-        default="support@ctchub.com",
+        default="support@xellenthub.com",
     )
     address = models.TextField(
         blank=True,
@@ -355,7 +355,7 @@ class SocialSettings(
     organisation_url = models.URLField(
         verbose_name=_("Organisation URL"),
         blank=True,
-        default="https://www.ctchub.com",
+        default="https://www.xellenthub.com",
     )
     additional_info = models.TextField(
         verbose_name=_("Additional Information"),

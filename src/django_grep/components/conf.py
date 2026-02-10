@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Type, Union
 from django.apps import apps as django_apps
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+
 from django_grep.contrib.utils import unique_ordered
 
 # ------------------------------------------------------------------
@@ -30,6 +31,19 @@ class ImportStrategy(str, Enum):
     CACHED = "cached"
 
 
+class SystemComponentName(str, Enum):
+    """Unified naming for special component triggers"""
+
+    DYNAMIC = "component_name"
+    # Placeholder for future expansion
+    # MODAL = "modal_component"
+    # FORM = "form_component"
+
+    @classmethod
+    def choices(cls):
+        return [(key.value, key.name.title()) for key in cls]
+
+
 # ------------------------------------------------------------------
 # DJANGO BLOCK SETTINGS
 # ------------------------------------------------------------------
@@ -44,6 +58,8 @@ class DjangoComponentsSettings:
     ENABLE_HOT_RELOAD: bool = settings.DEBUG
     MINIFY_COMPONENTS: bool = not settings.DEBUG
     DEFAULT_COMPONENT_THEME: str = "default"
+    RENDERER_VARIABLE: str = "html_file"
+    COMPONENT_NAME_ATTR: str = SystemComponentName.DYNAMIC
 
     # Component registration
     AUTO_DISCOVER_COMPONENTS: bool = False

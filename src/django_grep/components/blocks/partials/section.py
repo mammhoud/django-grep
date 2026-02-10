@@ -11,13 +11,13 @@ from django_grep.components.blocks.content.paragraph import ParagraphBlock
 from django_grep.components.blocks.media.document import DocumentBlock
 from django_grep.components.blocks.media.html import HTMLBlock
 
-from ..base import BaseBlock
+from ..base import AttributeModelBlock, BaseBlock
 from ..content.quote import BlockQuote
 from ..media.image import ImageBlock
 from .tables import TableBlock
 
 
-class SectionBlock(BaseBlock):
+class SectionBlock(AttributeModelBlock):
     """
      section block with multiple content types and layout options.
     """
@@ -131,7 +131,9 @@ class SectionBlock(BaseBlock):
     class Meta:
         icon = "folder-open-inverse"
         label = _(" Section")
+        template = "blocks/section_block.html"
         group = _("Content")
+
 
     def get_section_classes(self, value):
         """Get CSS classes for the section."""

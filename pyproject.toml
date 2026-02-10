@@ -1,7 +1,7 @@
 [project]
 name = "django-grep"
 version = "1.0.3"
-description = "Generic Reusable Enhanced Pipelines for Django and Wagtail"
+description = "Generic Reusable Enhanced Plugins and Pipelines for Django and Wagtail"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}

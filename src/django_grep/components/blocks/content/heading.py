@@ -66,4 +66,6 @@ class AdvancedHeadingBlock(BaseBlock):
     class Meta:
         icon = "title"
         label = _(" Heading")
+        template = "content/heading_block.html"
         group = _("Content")
+

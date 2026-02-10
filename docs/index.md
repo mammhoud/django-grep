@@ -1,19 +1,21 @@
 # Django GREP Documentation
 
-Welcome to the documentation for **Django GREP** (Generic Reusable Enhanced Pipelines).
+Welcome to the documentation for **Django GREP** (Generic Reusable Enhanced Plugins).
 
 ## Overview
 
-Django GREP is a collection of enhancing utilities and components for Django and Wagtail projects. It aims to simplify common development patterns by providing reusable logic for components, models, and workflows.
+Django GREP is a collection of enhancing plugins, utilities, and components for Django and Wagtail projects. It aims to simplify common development patterns by providing reusable logic for components, models, and modular workflows.
 
 ## Table of Contents
 
-- [Integration Guide](usage.md)
-- [Components System](components.md)
-- [Pipelines Framework](pipelines.md)
-- [Models Reference](models.md)
-- [Managers Reference](managers.md)
-- [Services Reference](services.md)
+- [General Usage Guide](usage.md)
+- [Component System](./components/index.md)
+- [Advanced Features](./components/features.md)
+- [Pipelines & Plugins](./pipelines/pipelines.md)
+- [Models Reference](./pipelines/models.md)
+- [Managers Reference](./pipelines/managers.md)
+- [Services Reference](./pipelines/services.md)
+- [Filters Reference](./pipelines/filters.md)
 - [Forms Reference](forms.md)
 - [Authentication Backends](backends.md)
 - [Core Utilities](utils.md)
@@ -21,8 +23,8 @@ Django GREP is a collection of enhancing utilities and components for Django and
 
 ## Key Concepts
 
-- **Components**: Reusable, atomic pieces of functionality (like UI blocks).
-- **Pipelines**: Workflow-driven model behaviors (signals, events).
+- **Plugin Components**: Reusable, atomic pieces of functionality (like UI blocks).
+- **Plugins & Pipelines**: Workflow-driven model behaviors (signals, events).
 - **Contrib**: Generic utilities and helpers.
 
 ## Getting Started

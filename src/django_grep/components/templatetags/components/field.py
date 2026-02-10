@@ -1,4 +1,6 @@
 from django import template
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 
 register = template.Library()
 
@@ -30,3 +32,17 @@ def render_field(field, label=None):
         {% render_field field label="Custom Label" %}
     """
     return {"field": field, "label": label if label else field.label}
+@register.simple_tag
+def render_unhandled_fields(unhandled_fields):
+    """
+    Renders unhandled model fields as a list of hidden spans for JavaScript consumption.
+    """
+    if not unhandled_fields:
+        return ""
+
+    parts = ['<div class="unhandled-model-fields" style="display:none;">']
+    for key, value in unhandled_fields.items():
+        parts.append(format_html('<span data-field="{}">{}</span>', key, value))
+    parts.append('</div>')
+
+    return mark_safe("".join(parts))

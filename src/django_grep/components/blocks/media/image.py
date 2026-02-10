@@ -10,41 +10,41 @@ from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 from wagtail.images.blocks import ImageChooserBlock
 
-from ..base import BaseBlock
+from ..base import AttributeModelBlock, BaseBlock
 
 
-class ImageBlock(BaseBlock):
+class ImageBlock(AttributeModelBlock):
     """
      image block with advanced styling options and accessibility features.
     """
-    
+
     image = ImageChooserBlock(
         required=True,
         label=_("Image"),
         help_text=_("Upload or select an image."),
     )
-    
+
     alternative_text = blocks.CharBlock(
         required=True,
         max_length=200,
         label=_("Alternative Text (Alt Text)"),
         help_text=_("Descriptive text for screen readers and SEO."),
     )
-    
+
     caption = blocks.RichTextBlock(
         required=False,
         label=_("Caption"),
         features=['bold', 'italic', 'link'],
         help_text=_("Optional caption displayed below the image."),
     )
-    
+
     attribution = blocks.CharBlock(
         required=False,
         max_length=200,
         label=_("Attribution"),
         help_text=_("Credit or source for this image."),
     )
-    
+
     # Styling Options
     alignment = blocks.ChoiceBlock(
         required=False,
@@ -57,7 +57,7 @@ class ImageBlock(BaseBlock):
         default='center',
         label=_("Image Alignment"),
     )
-    
+
     image_style = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -71,7 +71,7 @@ class ImageBlock(BaseBlock):
         default='default',
         label=_("Image Style"),
     )
-    
+
     max_width = blocks.CharBlock(
         required=False,
         default="100%",
@@ -79,14 +79,14 @@ class ImageBlock(BaseBlock):
         label=_("Maximum Width"),
         help_text=_("CSS value for max-width (e.g., 100%, 800px, 50vw)."),
     )
-    
+
     lazy_loading = blocks.BooleanBlock(
         required=False,
         default=True,
         label=_("Lazy Loading"),
         help_text=_("Enable lazy loading for better performance."),
     )
-    
+
     # Responsive Images
     responsive_sizes = blocks.CharBlock(
         required=False,
@@ -94,7 +94,7 @@ class ImageBlock(BaseBlock):
         label=_("Responsive Sizes"),
         help_text=_("HTML sizes attribute for responsive images."),
     )
-    
+
     # Link Options
     link_type = blocks.ChoiceBlock(
         required=False,
@@ -107,13 +107,13 @@ class ImageBlock(BaseBlock):
         default='none',
         label=_("Link Type"),
     )
-    
+
     link_url = blocks.URLBlock(
         required=False,
         label=_("Link URL"),
         help_text=_("URL to link the image to."),
     )
-    
+
     link_target = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -123,7 +123,7 @@ class ImageBlock(BaseBlock):
         default='_self',
         label=_("Link Target"),
     )
-    
+
     # Advanced
     custom_rendition = blocks.CharBlock(
         required=False,
@@ -131,13 +131,13 @@ class ImageBlock(BaseBlock):
         label=_("Custom Rendition"),
         help_text=_("Custom image rendition (e.g., 'width-800', 'fill-400x300')."),
     )
-    
+
     class Meta:
         icon = "image"
         label = _(" Image")
         template = "blocks/enhanced_image.html"
         group = _("Media")
-    
+
     def get_image_attributes(self, value):
         """Get HTML attributes for the image tag."""
         attrs = {
@@ -145,23 +145,23 @@ class ImageBlock(BaseBlock):
             'class': self.get_image_classes(value),
             'loading': 'lazy' if value.get('lazy_loading', True) else 'eager',
         }
-        
+
         if value.get('max_width'):
             attrs['style'] = f"max-width: {value['max_width']};"
-        
+
         if value.get('responsive_sizes'):
             attrs['sizes'] = value['responsive_sizes']
-        
+
         return attrs
-    
+
     def get_image_classes(self, value):
         """Get CSS classes for the image."""
         classes = []
-        
+
         # Framework-specific classes
         styling = self.get_styling_config()
         classes.append(styling.get('image', ''))
-        
+
         # Image style classes
         image_style = value.get('image_style', 'default')
         if image_style == 'rounded':
@@ -172,7 +172,7 @@ class ImageBlock(BaseBlock):
             classes.append('shadow' if self.style_framework == 'bootstrap' else f"{self.css_prefix}shadow-md")
         elif image_style == 'border':
             classes.append('border' if self.style_framework == 'bootstrap' else f"{self.css_prefix}border {self.css_prefix}border-gray-300")
-        
+
         # Alignment classes
         alignment = value.get('alignment', 'center')
         if alignment == 'center':
@@ -181,29 +181,29 @@ class ImageBlock(BaseBlock):
             classes.append('float-start' if self.style_framework == 'bootstrap' else f"{self.css_prefix}float-left")
         elif alignment == 'right':
             classes.append('float-end' if self.style_framework == 'bootstrap' else f"{self.css_prefix}float-right")
-        
+
         return ' '.join(filter(None, classes))
 
 
-class ImageGalleryBlock(BaseBlock):
+class ImageGalleryBlock(AttributeModelBlock):
     """
      gallery block with multiple layout options and lightbox support.
     """
-    
+
     gallery_title = blocks.CharBlock(
         required=False,
         max_length=200,
         label=_("Gallery Title"),
         help_text=_("Optional title for the gallery section."),
     )
-    
+
     gallery_description = blocks.RichTextBlock(
         required=False,
         label=_("Gallery Description"),
         features=['bold', 'italic', 'link'],
         help_text=_("Optional description for the gallery."),
     )
-    
+
     layout_style = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -216,7 +216,7 @@ class ImageGalleryBlock(BaseBlock):
         default='grid',
         label=_("Layout Style"),
     )
-    
+
     columns_desktop = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -230,7 +230,7 @@ class ImageGalleryBlock(BaseBlock):
         default='3',
         label=_("Desktop Columns"),
     )
-    
+
     columns_mobile = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -240,7 +240,7 @@ class ImageGalleryBlock(BaseBlock):
         default='1',
         label=_("Mobile Columns"),
     )
-    
+
     image_aspect_ratio = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -252,7 +252,7 @@ class ImageGalleryBlock(BaseBlock):
         default='original',
         label=_("Aspect Ratio"),
     )
-    
+
     gap_size = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -264,7 +264,7 @@ class ImageGalleryBlock(BaseBlock):
         default='medium',
         label=_("Gap Between Images"),
     )
-    
+
     show_captions = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -275,20 +275,20 @@ class ImageGalleryBlock(BaseBlock):
         default='hover',
         label=_("Show Captions"),
     )
-    
+
     lightbox_enabled = blocks.BooleanBlock(
         required=False,
         default=True,
         label=_("Enable Lightbox"),
         help_text=_("Allow clicking images to open in lightbox view."),
     )
-    
+
     images = blocks.ListBlock(
         ImageBlock(),
         label=_("Gallery Images"),
         help_text=_("Add images to the gallery."),
     )
-    
+
     # Navigation
     show_navigation = blocks.BooleanBlock(
         required=False,
@@ -296,21 +296,21 @@ class ImageGalleryBlock(BaseBlock):
         label=_("Show Navigation"),
         help_text=_("Show next/previous buttons for carousel layout."),
     )
-    
+
     show_dots = blocks.BooleanBlock(
         required=False,
         default=True,
         label=_("Show Dots"),
         help_text=_("Show navigation dots for carousel layout."),
     )
-    
+
     autoplay = blocks.BooleanBlock(
         required=False,
         default=False,
         label=_("Autoplay"),
         help_text=_("Automatically rotate slides in carousel layout."),
     )
-    
+
     autoplay_speed = blocks.IntegerBlock(
         required=False,
         default=3000,
@@ -319,13 +319,13 @@ class ImageGalleryBlock(BaseBlock):
         label=_("Autoplay Speed (ms)"),
         help_text=_("Time between slides in milliseconds."),
     )
-    
+
     class Meta:
         icon = "image"
         label = _(" Image Gallery")
         template = "blocks/enhanced_image_gallery.html"
         group = _("Media")
-    
+
     def get_gallery_config(self, value):
         """Get gallery configuration for JavaScript."""
         config = {
@@ -343,11 +343,11 @@ class ImageGalleryBlock(BaseBlock):
             }
         }
         return json.dumps(config)
-    
+
     def get_gallery_classes(self, value):
         """Get CSS classes for the gallery container."""
         classes = []
-        
+
         # Layout classes
         layout = value.get('layout_style', 'grid')
         if layout == 'grid':
@@ -356,7 +356,7 @@ class ImageGalleryBlock(BaseBlock):
             classes.append('gallery-masonry')
         elif layout == 'carousel':
             classes.append('gallery-carousel')
-        
+
         # Gap classes
         gap = value.get('gap_size', 'medium')
         if self.style_framework == 'tailwind':
@@ -373,8 +373,8 @@ class ImageGalleryBlock(BaseBlock):
                 'medium': 'g-4',
                 'large': 'g-5',
             }
-        
+
         if gap in gap_map:
             classes.append(gap_map[gap])
-        
+
         return ' '.join(filter(None, classes))

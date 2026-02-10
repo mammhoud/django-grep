@@ -16,12 +16,12 @@ class EmailSettings(BaseGenericSetting):
     """Global configuration for outgoing emails, newsletters, and tracking."""
 
     default_from_email = models.EmailField(
-        default=getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@ctc.com"),
+        default=getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@xellent.com"),
         verbose_name=_("Default From Email"),
     )
     default_from_name = models.CharField(
         max_length=100,
-        default="CTC Hub",
+        default="Xellent Hub",
         verbose_name=_("Default From Name"),
     )
     enable_tracking = models.BooleanField(

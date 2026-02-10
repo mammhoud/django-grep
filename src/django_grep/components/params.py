@@ -56,6 +56,12 @@ class Params:
             props=[],
         )
 
+    def get_raw_value(self, name: str) -> str | None:
+        for attr in self.attrs:
+            if attr.name == name:
+                return str(attr.value.raw)
+        return None
+
 
 @dataclass
 class Param:

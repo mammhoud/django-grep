@@ -8,6 +8,18 @@
 
 **Purpose:** Abstract base service providing standard CRUD operations and hooks.
 
+**When to Use:**
+- ✅ Complex business logic that spans multiple models.
+- ✅ Multi-step operations needing shared context.
+- ✅ Custom hooks required before or after execution.
+- ✅ Standardizing CRUD patterns across different modules.
+
+**Use Cases:**
+- User registration workflows.
+- Payment processing sequences.
+- Complex data transformations.
+- Notification dispatch logic.
+
 #### Class Attributes
 
 ```python

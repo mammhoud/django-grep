@@ -14,6 +14,7 @@ from django.template.backends.django import Template as DjangoTemplate
 from django.template.base import Node, NodeList, TextNode
 from django.template.context import Context
 from django.template.loader import select_template
+from django.utils.safestring import mark_safe
 
 from django_grep.components.conf import _settings
 
@@ -34,6 +35,7 @@ class Component:
     name: str
     template: DjangoTemplate
     assets: frozenset[Asset] = field(default_factory=frozenset)
+    component_name: str = ""
 
     def get_asset(self, asset_filename: str) -> Asset | None:
         for asset in self.assets:
@@ -144,15 +146,46 @@ class BoundComponent:
         attrs = self.params.render_attrs(context)
         slots = self.fill_slots(context)
 
-        with context.push(
-            **{
-                "attrs": attrs,
-                "props": props,
-                "slot": slots.get(DEFAULT_SLOT),
-                "slots": slots,
-                "vars": {},
-            }
-        ):
+        # 🔍 Find the variable name passed to comp (e.g., 'html_file')
+        renderer_variable_name = self.params.get_raw_value(_settings.RENDERER_VARIABLE)
+
+        context_data = {
+            "attrs": attrs,
+            "props": props,
+            "slot": slots.get(DEFAULT_SLOT),
+            "slots": slots,
+            "vars": {},
+            "component_var": renderer_variable_name,
+        }
+
+        # ⚡️ Dynamic Rendering Strategy
+        # If the component name (or component_name attr) matches our trigger,
+        # and we have an html_file prop, use the dynamic renderer.
+        html_file = props.get(_settings.RENDERER_VARIABLE)
+        is_dynamic = (
+            self.component.name == _settings.COMPONENT_NAME_ATTR
+            or self.component.component_name == _settings.COMPONENT_NAME_ATTR
+        )
+
+        if is_dynamic and html_file:
+            from django.template import Template
+
+            try:
+                if hasattr(html_file, "open"):
+                    with html_file.open("r") as f:
+                        content = f.read()
+                elif hasattr(html_file, "path"):
+                    with open(html_file.path, "r") as f:
+                        content = f.read()
+                else:
+                    content = str(html_file)
+
+                with context.push(**context_data):
+                    return Template(content).render(context)
+            except Exception as e:
+                return mark_safe(f"<!-- Dynamic Render Error: {e} -->")
+
+        with context.push(**context_data):
             return self.component.template.template.render(context)
 
     def fill_slots(self, context: Context):
@@ -203,7 +236,22 @@ class ComponentRegistry:
         if name in self._components and not settings.DEBUG:
             return self._components[name]
 
-        self._components[name] = Component.from_name(name)
+        from django.template.exceptions import TemplateDoesNotExist
+
+        try:
+            self._components[name] = Component.from_name(name)
+        except TemplateDoesNotExist:
+            if name == _settings.COMPONENT_NAME_ATTR:
+                # Create a virtual virtual component for dynamic rendering
+                from django.template.base import Template
+
+                dummy_template = DjangoTemplate(Template(""), engine=None)
+                self._components[name] = Component(
+                    name=name, template=dummy_template, component_name=name
+                )
+            else:
+                raise
+
         if name not in self._component_usage:
             self._component_usage[name] = set()
         return self._components[name]

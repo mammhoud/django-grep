@@ -1,41 +1,41 @@
 from django.utils.translation import gettext_lazy as _
 from wagtail import blocks
 
-from ..base import BaseBlock
+from ..base import AttributeModelBlock, BaseBlock
 
 
-class HTMLBlock(BaseBlock):
+class HTMLBlock(AttributeModelBlock):
     """
      HTML block with security and styling options.
     """
-    
+
     html_content = blocks.RawHTMLBlock(
         required=True,
         label=_("HTML Content"),
         help_text=_("Enter custom HTML, CSS, or JavaScript."),
     )
-    
+
     sanitize_html = blocks.BooleanBlock(
         required=False,
         default=True,
         label=_("Sanitize HTML"),
         help_text=_("Remove potentially dangerous HTML tags and attributes."),
     )
-    
+
     allow_scripts = blocks.BooleanBlock(
         required=False,
         default=False,
         label=_("Allow JavaScript"),
         help_text=_("Allow JavaScript execution (use with caution)."),
     )
-    
+
     allow_styles = blocks.BooleanBlock(
         required=False,
         default=True,
         label=_("Allow CSS Styles"),
         help_text=_("Allow inline CSS styles."),
     )
-    
+
     container = blocks.ChoiceBlock(
         required=False,
         choices=[
@@ -47,7 +47,7 @@ class HTMLBlock(BaseBlock):
         default='div',
         label=_("HTML Container"),
     )
-    
+
     class Meta:
         icon = "code"
         label = _(" HTML")

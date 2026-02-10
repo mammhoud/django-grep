@@ -1,16 +1,14 @@
-# Django GREP
+# Django GREP (Generic Reusable Enhanced Plugins)
 
-Django GREP (Generic Reusable Enhanced Pipelines) is a powerful utility library designed to enhance Django and Wagtail projects with a suite of reusable components, advanced pipelines, and core utilities.
-
-It was originally developed as part of the CTC website project (`wagtail-ctc`) and has evolved into a standalone package for broader reuse.
+Django GREP is a powerful suite of reusable plugins and utilities designed to enhance Django and Wagtail projects with advanced component architecture, modular pipelines, and core system extensions.
 
 ## Features
 
-### 🧩 Components (`django_grep.components`)
-A robust component system for Wagtail StreamFields, providing a structured way to build complex page layouts.
-- **Pre-built Blocks**: Includes common blocks like Hero, CTA, Features, Testimonials, and more.
-- **Template Tag Integration**: Easily render blocks in templates using custom template tags.
-- **Manifest Management**: Automatic asset manifest generation for component-specific CSS/JS.
+### 🧩 Plugin Components (`django_grep.components`)
+A robust plugin system for building modular page elements and layouts.
+- **Pluggable Blocks**: Modular components like Hero, CTA, Features, and Testimonials that can be dropped into any StreamField.
+- **Template Tag Plugins**: Extensible template tags for rendering complex logic with minimal boilerplate.
+- **Frontend Assets**: Automated asset management for plugin-specific CSS/JS.
 
 ### 🚀 Pipelines (`django_grep.pipelines`)
 Enhanced model workflows and data processing pipelines.
